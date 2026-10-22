@@ -21,9 +21,7 @@ fn install_mock_cargo(dir: &Path) -> std::ffi::OsString {
     fs::set_permissions(&cargo, permissions).unwrap();
 
     env::join_paths(
-        std::iter::once(mock_dir).chain(env::split_paths(
-            &env::var_os("PATH").unwrap_or_default(),
-        )),
+        std::iter::once(mock_dir).chain(env::split_paths(&env::var_os("PATH").unwrap_or_default())),
     )
     .unwrap()
 }
@@ -46,7 +44,10 @@ fn quiet_diff_only_has_no_stderr_for_changed_files() {
     fs::write(dir.path().join("contract.rs"), "pub fn contract() {}\n").unwrap();
     git(dir.path(), &["add", "contract.rs"]);
     git(dir.path(), &["commit", "--quiet", "-m", "base"]);
-    git(dir.path(), &["update-ref", "refs/remotes/origin/main", "HEAD"]);
+    git(
+        dir.path(),
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
     fs::write(
         dir.path().join("contract.rs"),
         "pub fn contract() { let _ = 1; }\n",

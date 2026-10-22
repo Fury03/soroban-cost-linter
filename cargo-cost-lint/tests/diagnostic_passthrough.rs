@@ -42,9 +42,7 @@ fn install_mock_cargo(dir: &Path) -> std::ffi::OsString {
     fs::set_permissions(&cargo, permissions).unwrap();
 
     env::join_paths(
-        std::iter::once(mock_dir).chain(env::split_paths(
-            &env::var_os("PATH").unwrap_or_default(),
-        )),
+        std::iter::once(mock_dir).chain(env::split_paths(&env::var_os("PATH").unwrap_or_default())),
     )
     .unwrap()
 }
